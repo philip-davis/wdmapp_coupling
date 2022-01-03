@@ -28,6 +28,7 @@ gdb
 
 Build, install, and test
 
+<<<<<<< HEAD
 ```
 git clone git@github.com:SCOREC/wdmapp_testcases.git #test data
 git clone git@github.com:SCOREC/wdmapp_coupling.git
@@ -50,3 +51,7 @@ ctest --test-dir buildWdmCpl --output-on-failure
   and of the SCOREC version of Omega\_h
   - scorec version 10.1.0 of Omega\_h is in spack@develop
     https://github.com/spack/spack/blob/8ddaa08ed2aacb4b5e587a33c625492cbdd4886e/var/spack/repos/builtin/packages/omega-h/package.py#L21
+=======
+- `Part1` refers to the core (GENE/GEM) application
+- `Part3` refers to the edges (XGC) application
+>>>>>>> 70f340f (readme: formatting)
