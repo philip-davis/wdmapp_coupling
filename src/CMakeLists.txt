@@ -40,7 +40,9 @@ if (WDMCPL_ENABLE_SERVER)
   list(APPEND WDMCPL_HEADERS wdmcpl/server.h)
 endif ()
 
-find_package(Kokkos REQUIRED)
+add_library(coupler ${SOURCES})
+set_target_properties(coupler PROPERTIES PUBLIC_HEADER "${HEADERS}")
+target_link_libraries(coupler adios2::adios2 Kokkos::kokkos PkgConfig::fftw MPI::MPI_CXX)
 
 add_library(wdmcpl_core ${WDMCPL_SOURCES})
 set_target_properties(wdmcpl_core PROPERTIES
