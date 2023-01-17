@@ -10,6 +10,14 @@ if (WDMCPL_ENABLE_ASAN AND CMAKE_COMPILER_IS_GNUCXX MATCHES 1)
   set(WDMCPL_HAS_ASAN ON)
 endif ()
 
+if(ENABLE_DSPACES)
+    set(USE_DSPACES 1)
+endif()
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/wdmcpl/config.h
+)
+
 option(WDMCPL_ENABLE_SERVER "enable the coupling server implementation" ON)
 option(WDMCPL_ENABLE_CLIENT "enable the coupling client implementation" ON)
 
@@ -45,6 +53,13 @@ endif()
 ## https://github.com/FFTW/fftw3/issues/130
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(fftw REQUIRED IMPORTED_TARGET fftw3>=3.3)
+
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include (xpkg-import)
+if(${ENABLE_TIMING})
+    xpkg_import_module(apex apex)
+endif()
 
 add_subdirectory(src)
 

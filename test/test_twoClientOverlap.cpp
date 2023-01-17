@@ -75,7 +75,11 @@ auto setupComms(redev::Redev& rdv, std::string_view name, const int clientId) {
   REDEV_ALWAYS_ASSERT(clientId == 0 || clientId ==1);
   std::stringstream clientName;
   clientName << name << "Client" << clientId;
+#ifdef USE_DSPACES
+  return rdv.CreateDSpacesClient<redev::GO>(clientName.str());
+#else
   return rdv.CreateAdiosClient<redev::GO>(clientName.str(),params,static_cast<redev::TransportType>(isSST));
+#endif
 }
 
 Omega_h::HostRead<Omega_h::I8> markMeshOverlapRegion(Omega_h::Mesh& mesh) {

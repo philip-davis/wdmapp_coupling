@@ -138,13 +138,21 @@ public:
       name_{std::move(name)}
   {
     std::string transport_name = name_;
+#ifdef USE_DSPACES
+    comm_ = redev_.CreateDSpacesClient<T>(transport_name);
+#else
     comm_ = redev_.CreateAdiosClient<T>(transport_name, params, transport_type);
+#endif
     // set up GID comm to do setup phase and get the
     // FIXME: use  one directional comm instead of the adios bidirectional
     // comm
     transport_name = transport_name.append("_gids");
+#ifdef USE_DSPACES
+    gid_comm_ = redev_.CreateDSpacesClient<wdmcpl::GO>(transport_name);
+#else
     gid_comm_ = redev_.CreateAdiosClient<wdmcpl::GO>(transport_name, params,
                                                      transport_type);
+#endif
     UpdateLayout();
   }
 
@@ -155,11 +163,17 @@ public:
 
   void Send()
   {
+    APEX_NAME_TIMER_START(1, "FieldCommunicator_send");
     auto n = field_adapter_.Serialize({}, {});
     REDEV_ALWAYS_ASSERT(comm_buffer_.size() == static_cast<size_t>(n));
     auto buffer = make_array_view(comm_buffer_);
+    APEX_NAME_TIMER_START(3, "FieldCommunicator_send_serializer");
     field_adapter_.Serialize(buffer, make_const_array_view(message_permutation_));
+    APEX_TIMER_STOP(3);
+    APEX_NAME_TIMER_START(4, "FieldCommunicator_comm_Send");
     comm_.Send(buffer.data_handle());
+    APEX_TIMER_STOP(4);
+    APEX_TIMER_STOP(1);
   }
   void Receive()
   {

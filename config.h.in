@@ -1,0 +1,6 @@
+#ifndef WDMCPL_CONFIG_H
+#define WDMCPL_CONFIG_H
+
+#cmakedefine USE_DSPACES
+
+#endif

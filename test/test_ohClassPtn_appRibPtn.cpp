@@ -43,8 +43,12 @@ int main(int argc, char** argv) {
   const int rdvRanks = 2;
   const int appRanks = 2;
 
+#ifdef USE_DSPACES
+  auto commPair = rdv.CreateDSpacesClient<redev::GO>(name);
+#else
   adios2::Params params{ {"Streaming", "On"}, {"OpenTimeoutSecs", "2"}};
   auto commPair = rdv.CreateAdiosClient<redev::GO>(name,params,redev::TransportType::BP4);
+#endif
 
   //Build the dest, offsets, and permutation arrays for the forward
   //send from non-rendezvous to rendezvous.

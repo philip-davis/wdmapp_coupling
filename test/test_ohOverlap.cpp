@@ -70,8 +70,12 @@ redev::ClassPtn setupServerPartition(Omega_h::Mesh& mesh, std::string_view cpnFi
 }
 
 auto setupComms(redev::Redev& rdv, std::string_view name) {
+#ifdef USE_DSPACES
+  return rdv.CreateDSpacesClient<redev::GO>(name);
+#else
   adios2::Params params{ {"Streaming", "On"}, {"OpenTimeoutSecs", "12"}};
   return rdv.CreateAdiosClient<redev::GO>(name,params,redev::TransportType::BP4);
+#endif
 }
 
 Omega_h::HostRead<Omega_h::I8> markMeshOverlapRegion(Omega_h::Mesh& mesh) {

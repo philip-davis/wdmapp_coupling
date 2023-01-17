@@ -33,8 +33,11 @@ int main(int argc, char** argv) {
   redev::Redev rdv(MPI_COMM_WORLD,std::move(partition),static_cast<redev::ProcessType>(isRdv));
   const std::string name = "meshVtxIds";
   adios2::Params params{ {"Streaming", "On"}, {"OpenTimeoutSecs", "2"}};
+#ifdef USE_DSPACES
+  auto commPair = rdv.CreateDSpacesClient<redev::GO>(name);
+#else
   auto commPair = rdv.CreateAdiosClient<redev::GO>(name,params,redev::TransportType::BP4);
-
+#endif
   //build dest, offsets, and permutation arrays
   ts::OutMsg appOut = !isRdv ? ts::prepareAppOutMessage(mesh, std::get<decltype(partition)>(rdv.GetPartition())) : ts::OutMsg();
   if(!isRdv) {

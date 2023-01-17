@@ -40,9 +40,7 @@ if (WDMCPL_ENABLE_SERVER)
   list(APPEND WDMCPL_HEADERS wdmcpl/server.h)
 endif ()
 
-add_library(coupler ${SOURCES})
-set_target_properties(coupler PROPERTIES PUBLIC_HEADER "${HEADERS}")
-target_link_libraries(coupler adios2::adios2 Kokkos::kokkos PkgConfig::fftw MPI::MPI_CXX)
+find_package(Kokkos REQUIRED)
 
 add_library(wdmcpl_core ${WDMCPL_SOURCES})
 set_target_properties(wdmcpl_core PROPERTIES
@@ -67,6 +65,9 @@ if(WDMCPL_HAS_ASAN)
   target_compile_options(wdmcpl_core PRIVATE -fsanitize=address -fno-omit-frame-pointer)
 endif()
 
+if(_apex_FOUND)
+   target_link_libraries(wdmcpl_core PUBLIC apex)
+endif()
 
 ## export the library
 set_target_properties(wdmcpl_core PROPERTIES
@@ -74,6 +75,7 @@ set_target_properties(wdmcpl_core PROPERTIES
 target_include_directories(wdmcpl_core
   PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>/.."
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 install(
   TARGETS wdmcpl_core
@@ -116,6 +118,9 @@ if(WDMCPL_ENABLE_Fortran)
   target_link_libraries(wdmcpl_wdmcpl INTERFACE wdmcpl::fortranapi)
 endif()
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/../wdmcpl/config.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wdmcpl)
+
 install(
         TARGETS wdmcpl_wdmcpl
         EXPORT wdmcpl-targets
@@ -128,3 +133,6 @@ install(
   EXPORT wdmcpl-targets
   NAMESPACE wdmcpl::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/wdmcpl)
+
+install(DIRECTORY wdmcpl/external
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wdmcpl)

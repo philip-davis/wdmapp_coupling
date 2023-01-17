@@ -5,7 +5,7 @@
 #include <Omega_h_mesh.hpp>
 #include "wdmcpl/field.h"
 #include "wdmcpl/coordinate_systems.h"
-#include <Kokkos_core.hpp>
+#include <Kokkos_Core.hpp>
 #include <wdmcpl/assert.h>
 #include <Omega_h_for.hpp>
 #include "wdmcpl/arrays.h"

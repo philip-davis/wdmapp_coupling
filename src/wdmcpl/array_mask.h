@@ -1,7 +1,7 @@
 #ifndef WDM_COUPLING_ARRAY_MASK_H
 #define WDM_COUPLING_ARRAY_MASK_H
 #include "wdmcpl/arrays.h"
-#include <Kokkos_core.hpp>
+#include <Kokkos_Core.hpp>
 namespace wdmcpl
 {
 
