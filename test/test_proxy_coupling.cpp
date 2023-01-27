@@ -239,6 +239,7 @@ void xgc_coupler(MPI_Comm comm, Omega_h::Mesh& mesh, std::string_view cpn_file)
 int main(int argc, char** argv)
 {
   auto lib = Omega_h::Library(&argc, &argv);
+  Kokkos::ScopeGuard kokkos{};
   auto world = lib.world();
   const int rank = world->rank();
   if (argc != 4) {
