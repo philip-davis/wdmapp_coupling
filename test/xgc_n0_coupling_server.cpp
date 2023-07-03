@@ -250,6 +250,7 @@ int main(int argc, char** argv)
   auto world = lib.world();
   const int rank = world->rank();
   int size = world->size();
+  Kokkos::ScopeGuard kokkos{};
   if (argc != 4) {
     if (!rank) {
       std::cerr << "Usage: " << argv[0]
