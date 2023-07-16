@@ -145,6 +145,7 @@ int main(int argc, char** argv)
   auto lib = Omega_h::Library(&argc, &argv);
   auto world = lib.world();
   const int rank = world->rank();
+  //Kokkos::ScopeGuard kokkos{};
   int size = world->size();
   if (argc != 4) {
     if (!rank) {

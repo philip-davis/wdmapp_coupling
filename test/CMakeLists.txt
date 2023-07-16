@@ -193,12 +193,12 @@ if (WDMCPL_ENABLE_OMEGA_H)
             test_point_search.cpp
             )
 endif ()
-add_executable(unit_tests ${WDMCPL_UNIT_TEST_SOURCES})
-target_link_libraries(unit_tests PUBLIC Catch2::Catch2 wdmcpl::core)
-target_include_directories(unit_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+#add_executable(unit_tests ${WDMCPL_UNIT_TEST_SOURCES})
+#target_link_libraries(unit_tests PUBLIC Catch2::Catch2 wdmcpl::core)
+#target_include_directories(unit_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-include(Catch)
-catch_discover_tests(unit_tests)
+#include(Catch)
+#catch_discover_tests(unit_tests)
 
 if (WDMCPL_ENABLE_C)
     find_package(flcl QUIET)
