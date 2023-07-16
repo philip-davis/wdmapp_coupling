@@ -31,6 +31,7 @@ static wdmcpl::ConvertibleCoupledField* AddField(wdmcpl::Application *applicatio
       if(plane >=0) {
         field_name<< "_" << plane;
       }
+      std::cerr << "creating omegah adapter with " <<  path+field_name.str() << std::endl;
       return application->AddField(field_name.str(),
                    wdmcpl::OmegaHFieldAdapter<wdmcpl::Real>(
                    path+field_name.str(), mesh, is_overlap, numbering),
@@ -306,7 +307,7 @@ int main(int argc, char** argv)
   auto world = lib.world();
   const int rank = world->rank();
   int size = world->size();
-  Kokkos::ScopeGuard kokkos{};
+  //Kokkos::ScopeGuard kokkos{};
   if (argc != 4) {
     if (!rank) {
       std::cerr << "Usage: " << argv[0]

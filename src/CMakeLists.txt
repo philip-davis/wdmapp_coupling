@@ -8,6 +8,7 @@ set(WDMCPL_HEADERS
         wdmcpl/coordinate.h
         wdmcpl/coordinate_systems.h
         wdmcpl/coordinate_transform.h
+        wdmcpl/dummy_field_adapter.h
         wdmcpl/field.h
         wdmcpl/field_communicator.h
         wdmcpl/field_evaluation_methods.h
@@ -24,7 +25,8 @@ set(WDMCPL_SOURCES
 set(WDMCPL_SOURCES wdmcpl.cpp wdmcpl/assert.cpp)
 if(WDMCPL_ENABLE_XGC)
   list(APPEND WDMCPL_SOURCES  wdmcpl/xgc_reverse_classification.cpp)
-  list(APPEND WDMCPL_HEADERS wdmcpl/xgc_reverse_classification.h)
+  list(APPEND WDMCPL_HEADERS wdmcpl/xgc_field_adapter.h
+                            wdmcpl/xgc_reverse_classification.h)
 endif()
 if (WDMCPL_ENABLE_OMEGA_H)
   list(APPEND WDMCPL_SOURCES wdmcpl/point_search.cpp)
